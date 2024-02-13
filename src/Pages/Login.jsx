@@ -48,6 +48,7 @@ const Login = () => {
             type="email"
             value={data.email}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-5">
@@ -58,6 +59,7 @@ const Login = () => {
             name="password"
             value={data.password}
             onChange={handleChange}
+            required
           />
         </div>
         <div className=" mb-3 flex justify-center ">

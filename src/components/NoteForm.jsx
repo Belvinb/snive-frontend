@@ -66,6 +66,7 @@ const NoteForm = ({  savedNote }) => {
             name="description"
             id="description"
             value={note.description}
+            required
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
@@ -77,6 +78,7 @@ const NoteForm = ({  savedNote }) => {
             id="content"
             value={note.content}
             onChange={handleChange}
+            required
             className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           ></textarea>
         </div>

@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createNote, updateNote } from './noteAction';
+import { createNote, deleteNote, updateNote } from './noteAction';
 
 
 const initialState = {
   loading: false,
-  data: null,
+  note: null,
   error: null,
   success: false, 
 };
@@ -12,16 +12,7 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    // logout: (state) => {
-    //   localStorage.removeItem("token");
-     
-    //   state.loading = false;
-    //   state.userInfo = null;
-    //   state.userToken = null;
-    //   state.error = null;
-    // },
-  },
+  reducers: { },
   extraReducers: builder => {
     builder
       .addCase(createNote.pending, (state) => {
@@ -30,7 +21,7 @@ const userSlice = createSlice({
       })
       .addCase(createNote.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.data = payload
+        state.note = payload
         // state.userInfo = payload;
         // state.userToken = payload.userToken;
       })
@@ -41,13 +32,29 @@ const userSlice = createSlice({
       .addCase(updateNote.pending, (state) => {
         state.loading = true;
         state.error = null;
+      
       })
       .addCase(updateNote.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.success = true;
-        // state.signupInfo = payload.data;
+        state.note = payload
       })
       .addCase(updateNote.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(deleteNote.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      
+      })
+      .addCase(deleteNote.fulfilled, (state, { payload }) => {
+        console.log(payload)
+        state.loading = false;
+        state.success = true;
+        state.note = payload
+      })
+      .addCase(deleteNote.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

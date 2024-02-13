@@ -3,25 +3,42 @@ import { useState } from "react";
 import api from "../Utils/axiosConfig";
 import getAuthHeaders from "../Utils/getAuth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteNote } from "../features/notes/noteAction";
+import { logout } from "../features/notes/noteSlice";
 
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { note } = useSelector((state) => state.note);
   const [notes, setNotes] = useState(null);
+  const [queryTitle, setQueryTitle] = useState("");
 
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [note]);
 
   const fetchNotes = async () => {
-    const result = await api.get("/note/all-notes", getAuthHeaders());
+    const result = await api.get(`/note/all-notes`, getAuthHeaders());
     setNotes(result.data);
   };
 
   const handleDelete = async (id) => {
-    await api.delete(`/note/delete-note/${id}`, getAuthHeaders());
+    dispatch(deleteNote({ id }));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
   };
   return (
     <div className="max-w-lg mx-auto flex flex-col mt-20  items-center  ">
+      <button
+        onClick={handleLogout}
+        className="absolute top-0 right-0 m-4 bg-red-500 text-white px-4 py-2 rounded-lg"
+      >
+        Logout
+      </button>
       <div className="flex items-center mb-5">
         <h1 className="text-2xl font-semibold mr-4">Notes</h1>
         <button
@@ -31,6 +48,18 @@ const Home = () => {
           Add Note
         </button>
       </div>
+      {/* <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700">Search by title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            value={queryTitle}
+            onChange={(e)=>setQueryTitle(e.target.value)}
+            required
+            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          />
+        </div> */}
       <div
         className=" w-full max-h-[25rem] p-2 overflow-y-auto"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}

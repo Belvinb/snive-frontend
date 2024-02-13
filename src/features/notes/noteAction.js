@@ -48,4 +48,31 @@ export const createNote = createAsyncThunk(
         }
       }
     }
+
+
+  )
+
+  export const deleteNote = createAsyncThunk(
+    '/delete-note',
+    async({id},{rejectWithValue})=>{
+      try{
+
+        console.log(id)
+      
+        const {data} = await api.delete(
+          `/note/delete-note/${id}`,
+          getAuthHeaders()
+
+        )
+        return data
+      }catch (error){
+        if(error.response && error.response.data.message){
+          return rejectWithValue(error.response.data.message)
+        }else{
+          return rejectWithValue(error.message)
+        }
+      }
+    }
+
+    
   )

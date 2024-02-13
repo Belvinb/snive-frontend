@@ -26,6 +26,7 @@ const Signup = () => {
   const handleSubmit = (e) =>{
     e.preventDefault()
     dispatch(registerUser(data))
+    navigate("/")
 
   }
   return (
@@ -45,6 +46,7 @@ const Signup = () => {
             type="text"
             value={data.username}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -58,6 +60,7 @@ const Signup = () => {
             type="email"
             value={data.email}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-5">
@@ -68,6 +71,7 @@ const Signup = () => {
             name="password"
             value={data.password}
             onChange={handleChange}
+            required
           />
         </div>
         <div className=" mb-3 flex justify-center ">

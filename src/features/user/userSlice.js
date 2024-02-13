@@ -20,6 +20,7 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.userToken = null;
       state.error = null;
+      
     },
   },
   extraReducers: builder => {
